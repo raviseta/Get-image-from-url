@@ -1,0 +1,24 @@
+func downloadImage() {
+        let catPictureURL = URL(string: "http://i.imgur.com/w5rkSIj.jpg")!
+        let session = URLSession(configuration: .default)
+        let downloadPicTask = session.dataTask(with: catPictureURL) { (data, response, error) in
+           
+            if let e = error {
+                print("Error downloading cat picture: \(e)")
+            } else {
+             
+                if let res = response as? HTTPURLResponse {
+                    print("Downloaded cat picture with response code \(res.statusCode)")
+                    if let imageData = data {
+                        let image = UIImage(data: imageData)
+                    } else {
+                        print("Couldn't get image: Image is nil")
+                    }
+                } else {
+                    print("Couldn't get response code for some reason")
+                }
+            }
+        }
+        
+        downloadPicTask.resume()
+    }
